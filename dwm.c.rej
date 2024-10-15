@@ -1,0 +1,35 @@
+--- dwm.c
++++ dwm.c
+@@ -272,9 +239,6 @@ static Drw *drw;
+ static Monitor *mons, *selmon;
+ static Window root, wmcheckwin;
+ 
+-static Systray *systray = NULL;
+-static unsigned long systrayorientation = _NET_SYSTEM_TRAY_ORIENTATION_HORZ;
+-
+ static int useargb = 0;
+ static Visual *visual;
+ static int depth;
+@@ -1107,12 +989,6 @@ maprequest(XEvent *e)
+ 	static XWindowAttributes wa;
+ 	XMapRequestEvent *ev = &e->xmaprequest;
+ 
+-	Client *i;
+-	if (showsystray && (i = wintosystrayicon(ev->window))) {
+-		sendevent(i->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_WINDOW_ACTIVATE, 0, systray->win, XEMBED_EMBEDDED_VERSION);
+-		updatesystray(1);
+-	}
+-
+ 	if (!XGetWindowAttributes(dpy, ev->window, &wa))
+ 		return;
+ 	if (wa.override_redirect)
+@@ -1592,9 +1415,6 @@ setup(void)
+ 	scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
+ 	for (i = 0; i < LENGTH(colors); i++)
+ 		scheme[i] = drw_scm_create(drw, colors[i], alphas[i], 3);
+-	/* init system tray */
+-	if (showsystray)
+-		updatesystray(0);
+ 	/* init bars */
+ 	updatebars();
+ 	updatestatus();
