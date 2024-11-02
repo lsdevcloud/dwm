@@ -1,35 +1,39 @@
 --- dwm.c
 +++ dwm.c
-@@ -272,9 +239,6 @@ static Drw *drw;
- static Monitor *mons, *selmon;
- static Window root, wmcheckwin;
+@@ -1703,7 +1703,7 @@ textnw(const char *text, unsigned int len) {
  
--static Systray *systray = NULL;
--static unsigned long systrayorientation = _NET_SYSTEM_TRAY_ORIENTATION_HORZ;
--
- static int useargb = 0;
- static Visual *visual;
- static int depth;
-@@ -1107,12 +989,6 @@ maprequest(XEvent *e)
- 	static XWindowAttributes wa;
- 	XMapRequestEvent *ev = &e->xmaprequest;
+ void
+ tile(Monitor *m) {
+-	unsigned int i, n, h, mw, my, ty;
++	unsigned int i, n, h, r, g = 0, mw, my, ty;
+ 	Client *c;
  
--	Client *i;
--	if (showsystray && (i = wintosystrayicon(ev->window))) {
--		sendevent(i->win, netatom[Xembed], StructureNotifyMask, CurrentTime, XEMBED_WINDOW_ACTIVATE, 0, systray->win, XEMBED_EMBEDDED_VERSION);
--		updatesystray(1);
--	}
--
- 	if (!XGetWindowAttributes(dpy, ev->window, &wa))
+ 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+@@ -1711,19 +1711,21 @@ tile(Monitor *m) {
  		return;
- 	if (wa.override_redirect)
-@@ -1592,9 +1415,6 @@ setup(void)
- 	scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
- 	for (i = 0; i < LENGTH(colors); i++)
- 		scheme[i] = drw_scm_create(drw, colors[i], alphas[i], 3);
--	/* init system tray */
--	if (showsystray)
--		updatesystray(0);
- 	/* init bars */
- 	updatebars();
- 	updatestatus();
+ 
+ 	if(n > m->nmaster)
+-		mw = m->nmaster ? m->ww * m->mfact : 0;
++		mw = m->nmaster ? (m->ww - (g = gappx)) * m->mfact : 0;
+ 	else
+ 		mw = m->ww;
+ 	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+ 		if(i < m->nmaster) {
+-			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
++			r = MIN(n, m->nmaster) - i;
++			h = (m->wh - my - gappx * (r - 1)) / r;
+ 			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
+-			my += HEIGHT(c);
++			my += HEIGHT(c) + gappx;
+ 		}
+ 		else {
+-			h = (m->wh - ty) / (n - i);
+-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
+-			ty += HEIGHT(c);
++			r = n - i;
++			h = (m->wh - ty - gappx * (r - 1)) / r;
++			resize(c, m->wx + mw + g, m->wy + ty, m->ww - mw - g - (2*c->bw), h - (2*c->bw), False);
++			ty += HEIGHT(c) + gappx;
+ 		}
+ }
+ 

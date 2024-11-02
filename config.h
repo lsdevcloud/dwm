@@ -11,11 +11,12 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_green[]        = "#015c02";
+static const char col_gray[]        = "#1E1F22";
+static const char col_bar_bg[]	    = "#2c2c2c";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_green,  col_green },
+	[SchemeNorm] = { col_gray3, col_bar_bg, col_gray2 },
+	[SchemeSel]  = { col_gray4, col_gray2,  col_gray },
 };
 
 /* tagging */
@@ -60,7 +61,9 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_e,      spawn,          SHCMD("rofi -modi emoji -show emoji -kb-custom-1 Ctrl+c")},
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+//	{ MODKEY,                       XK_f,	   fullscreen,     {0} },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
