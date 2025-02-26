@@ -79,7 +79,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_s,  spawn,          SHCMD("bash ~/repos/dotfiles/scripts/screenshot.sh")},
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY,           			XK_l,	   spawn,	       SHCMD("betterlockscreen -l dimblur --display 1 --span")},
+	{ MODKEY|ShiftMask,           			XK_l,	   spawn,	       SHCMD("betterlockscreen -l dimblur --display 1 --span")},
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	TAGKEYS(                        XK_1,                      0)
