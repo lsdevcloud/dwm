@@ -2,26 +2,37 @@
 
 /* See LICENSE file for copyright and license details. */
 
-/* appearance */
-
+/* gaps */
 static const unsigned int gappx     = 6;       /* gap pixel between windows */
 
+/* border sizes */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+
+/* bar position */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Hack Nerd Font, monospace:size=13" };
+
+/* font */
+static const char *fonts[]          = { "Hack Nerd Font, monospace:size=14" };
 static const char dmenufont[]       = "monospace:size=10";
+
+/* colors */
+static const char col_bordersel[]   = "#424ef5";
+static const char col_bordernorm[]  = "#141414";
+
+static const char col_normbg[]      = "";
+ 
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
+static const char col_normfg[]       = "#eeeeee";
 static const char col_gray[]        = "#1E1F22";
 static const char col_bar_bg[]	    = "#2c2c2c";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_bar_bg, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_gray2,  col_gray },
+	/*               fg             bg         border   */
+	[SchemeNorm] = { col_normfg,    col_bar_bg, col_bordernorm },
+	[SchemeSel]  = { col_bordersel,    col_normfg,  col_bordersel },
 };
 
 /* tagging */
