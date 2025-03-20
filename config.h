@@ -1,28 +1,40 @@
+#include <X11/XF86keysym.h>
+
 /* See LICENSE file for copyright and license details. */
 
-/* appearance */
-
+/* gaps */
 static const unsigned int gappx     = 6;       /* gap pixel between windows */
 
+/* border sizes */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+
+/* bar position */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Hack Nerd Font, monospace:size=13" };
+
+/* font */
+static const char *fonts[]          = { "Hack Nerd Font, monospace:size=14" };
 static const char dmenufont[]       = "monospace:size=10";
+
+/* colors */
+static const char col_bordersel[]   = "#424ef5";
+static const char col_bordernorm[]  = "#141414";
+
+static const char col_normbg[]      = "";
+ 
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
+static const char col_normfg[]       = "#eeeeee";
 static const char col_gray[]        = "#1E1F22";
 static const char col_bar_bg[]	    = "#2c2c2c";
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_bar_bg, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_gray2,  col_gray },
+	/*               fg             bg              border   */
+	[SchemeNorm] = { col_normfg,    col_bar_bg,     col_bordernorm },
+	[SchemeSel]  = { col_bordersel, col_bordernorm, col_bordersel },
 };
 
-/* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
 static const Rule rules[] = {
@@ -58,10 +70,15 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+/* volume key definitions */
+static const char *upvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%", NULL };
+static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%", NULL };
+static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute", "0", "toggle", NULL };
+
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-show", "drun", "-show-icons", NULL };
-static const char *termcmd[]  = { "kitty", NULL };
+static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -97,6 +114,10 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	TAGKEYS(                        XK_0,                      9)
 	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
+	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
+	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+
 };
 
 /* button definitions */
