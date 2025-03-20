@@ -30,9 +30,9 @@ static const char col_normfg[]       = "#eeeeee";
 static const char col_gray[]        = "#1E1F22";
 static const char col_bar_bg[]	    = "#2c2c2c";
 static const char *colors[][3]      = {
-	/*               fg             bg         border   */
-	[SchemeNorm] = { col_normfg,    col_bar_bg, col_bordernorm },
-	[SchemeSel]  = { col_bordersel,    col_normfg,  col_bordersel },
+	/*               fg             bg              border   */
+	[SchemeNorm] = { col_normfg,    col_bar_bg,     col_bordernorm },
+	[SchemeSel]  = { col_bordersel, col_bordernorm, col_bordersel },
 };
 
 /* tagging */
